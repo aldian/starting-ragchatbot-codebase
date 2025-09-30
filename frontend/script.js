@@ -120,12 +120,26 @@ function addMessage(content, type, sources = null, isWelcome = false) {
     const displayContent = type === 'assistant' ? marked.parse(content) : escapeHtml(content);
     
     let html = `<div class="message-content">${displayContent}</div>`;
-    
+
     if (sources && sources.length > 0) {
+        // Format sources as clickable links or plain text
+        const formattedSources = sources.map(source => {
+            if (typeof source === 'object' && source.text) {
+                // If source has a URL, make it a clickable link
+                if (source.url) {
+                    return `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.text)}</a>`;
+                }
+                // Otherwise just show the text
+                return escapeHtml(source.text);
+            }
+            // Fallback for plain string sources (backwards compatibility)
+            return escapeHtml(source);
+        }).join(', ');
+
         html += `
             <details class="sources-collapsible">
                 <summary class="sources-header">Sources</summary>
-                <div class="sources-content">${sources.join(', ')}</div>
+                <div class="sources-content">${formattedSources}</div>
             </details>
         `;
     }

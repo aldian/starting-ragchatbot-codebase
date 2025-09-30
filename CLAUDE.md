@@ -71,3 +71,12 @@ This is a RAG (Retrieval-Augmented Generation) system with the following archite
 - `frontend/`: Static HTML/CSS/JS files
 - `docs/`: Course documents (auto-loaded on startup)
 - `chroma_db/`: Vector database storage (auto-created)
+
+## Source code management
+
+### git repository
+
+When I ask you to push the changes to the git repo, will run this:
+```
+eval `ssh-agent` && ssh-add ~/.ssh/id_rsa && git push aldian
+```
